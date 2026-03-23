@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>EZLook</title>
+  <style>
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    header {
+      background: #000000;
+      padding: 10px 20px;
+    }
+
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* LOGO (ESQUERDA) */
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+	  color: white;
+    }
+
+    /* BUSCA (CENTRO) */
+    .search {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+    }
+
+    .search input {
+      width: 60%;
+      padding: 8px 15px;
+      border-radius: 20px;
+      border: 1px solid #ccc;
+    }
+
+    /* ÍCONES (DIREITA) */
+    .icons {
+      display: flex;
+      gap: 20px;
+      font-size: 20px;
+    }
+
+    .icon {
+      position: relative;
+      cursor: pointer;
+    }
+
+    .cart-count {
+      position: absolute;
+      top: -5px;
+      right: -10px;
+      background: grey;
+      color: white;
+      font-size: 12px;
+      padding: 2px 6px;
+      border-radius: 50%;
+    }
+
+    /* MENU */
+    nav {
+      margin-top: 10px;
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: grey;
+      font-size: 14px;
+    }
+	/* CARROSSEL */
+.carousel {
+  width: 100%;
+  height: 400px;
+  position: relative;
+  overflow: hidden;
+}
+
+.slides {
+  display: flex;
+  width: 100%;
+}
+
+.slide {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  display: none; 
+}
+
+/* MOSTRA A ATIVA */
+.slide.active {
+  display: block;
+}
+
+/* BOTÕES */
+.prev, .next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.5);
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.prev {
+  left: 10px;
+}
+
+.next {
+  right: 10px;
+}
+
+.carousel {
+  width: 100%;
+  height: 400px;
+  position: relative;
+  overflow: hidden;
+  background: #000;
+}
+/* SOBRE NÓS */
+.sobre {
+  padding: 40px 20px;
+  text-align: center;
+  background: #f5f5f5;
+}
+
+.sobre h2 {
+  font-size: 28px;
+  margin-bottom: 15px;
+}
+
+.sobre p {
+  max-width: 600px;
+  margin: 0 auto;
+  font-size: 16px;
+  color: #555;
+}
+/* PRODUTOS */
+.produtos {
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.produtos-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 25px;
+}
+
+/* CARD */
+.produto {
+  background: #f9f9f9;
+  padding: 15px;
+  position: relative; /* 👈 importante pro badge */
+}
+
+/* IMAGEM */
+.produto img {
+  width: 100%;
+  height: 180px;
+  object-fit: contain; /* 👈 estilo mais clean (igual sua imagem) */
+}
+
+/* BADGE DESCONTO */
+.badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: #d4e8d4;
+  color: #2e7d32;
+  font-size: 12px;
+  padding: 5px 8px;
+  border-radius: 3px;
+}
+
+/* TEXTO */
+.produto h3 {
+  margin: 10px 0;
+  font-size: 14px;
+  color: #555;
+}
+
+/* PREÇOS */
+.preco {
+  font-size: 14px;
+}
+
+.novo {
+  color: #000;
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.antigo {
+  color: #999;
+  text-decoration: line-through;
+  font-size: 13px;
+}
+/* CATEGORIAS */
+.categorias {
+  padding: 40px 20px;
+  text-align: center;
+  background: #fff;
+}
+
+.categorias h2 {
+  margin-bottom: 20px;
+}
+
+/* CARROSSEL HORIZONTAL */
+.categorias-container {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto; /* 👈 permite rolar pro lado */
+  scroll-behavior: smooth;
+  padding-bottom: 10px;
+}
+
+/* ITEM */
+.categoria {
+  min-width: 180px; /* 👈 tamanho do card */
+  background: #f5f5f5;
+  padding: 15px;
+  border-radius: 10px;
+  flex-shrink: 0; /* 👈 impede de encolher */
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.categoria:hover {
+  transform: scale(1.05);
+}
+
+/* IMAGEM */
+.categoria img {
+  width: 100%;
+  height: 120px;
+  object-fit: contain;
+}
+
+/* TEXTO */
+.categoria p {
+  margin-top: 10px;
+  font-size: 14px;
+}
+/* LENTES */
+.lentes {
+  padding: 40px 20px;
+  text-align: center;
+  background: #f5f5f5;
+}
+
+.lentes h2 {
+  margin-bottom: 30px;
+}
+
+.lentes-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.lente {
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.lente:hover {
+  transform: scale(1.03);
+}
+
+.lente img {
+  width: 100%;
+  height: 150px;
+  object-fit: contain;
+}
+
+.lente p {
+  margin-top: 10px;
+  font-size: 14px;
+}
+/* GRID */
+.lentes-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+/* BANNER */
+.lente-banner {
+  position: relative;
+  height: 250px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+/* IMAGEM */
+.lente-banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: 0.5s;
+}
+
+/* ZOOM NO HOVER */
+.lente-banner:hover img {
+  transform: scale(1.1);
+}
+
+/* OVERLAY ESCURO */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.3);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* TEXTO */
+.overlay h3 {
+  color: white;
+  font-size: 18px;
+  letter-spacing: 1px;
+}
+/* PROMO FULL WIDTH */
+.promo {
+  width: 100vw;
+  height: 400px;
+  position: relative;
+  overflow: hidden;
+
+  margin-left: calc(-50vw + 50%);
+}
+
+/* SLIDES */
+.promo-slides {
+  width: 100%;
+  height: 100%;
+}
+
+.promo-slide {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  display: none;
+}
+
+/* ATIVA */
+.promo-slide.active {
+  display: block;
+}
+
+/* BOTÕES */
+.promo-prev, .promo-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.5);
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.promo-prev { left: 10px; }
+.promo-next { right: 10px; }
+
+/* NEWSLETTER */
+.newsletter {
+  background: #000;
+  color: white;
+  text-align: center;
+  padding: 50px 20px;
+}
+
+.newsletter h2 {
+  margin-bottom: 10px;
+}
+
+.newsletter p {
+  margin-bottom: 20px;
+  color: #ccc;
+}
+
+/* FORM */
+.form-leads {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.form-leads input {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  width: 220px;
+}
+
+.form-leads button {
+  background: grey;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.form-leads button:hover {
+  background: white;
+  color: black;
+}
+/* RODAPÉ */
+.footer {
+  background: #000;
+  color: white;
+  padding: 40px 20px 20px;
+}
+
+/* GRID */
+.footer-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+/* COLUNAS */
+.footer-col h3,
+.footer-col h4 {
+  margin-bottom: 10px;
+}
+
+.footer-col p {
+  font-size: 14px;
+  color: #ccc;
+  margin-bottom: 5px;
+}
+
+/* LINKS */
+.footer-col ul {
+  list-style: none;
+}
+
+.footer-col ul li {
+  margin-bottom: 5px;
+}
+
+.footer-col a {
+  text-decoration: none;
+  color: #ccc;
+}
+
+.footer-col a:hover {
+  color: white;
+}
+
+/* LINHA FINAL */
+.footer-bottom {
+  text-align: center;
+  margin-top: 30px;
+  font-size: 13px;
+  color: #999;
+}
+  </style>
+</head>
+<body>
+
+<header>
+
+  <div class="top-bar">
+    
+    <!-- LOGO -->
+    <div class="logo">EZLOOK</div>
+
+    <!-- BUSCA -->
+    <div class="search">
+      <input type="text" placeholder="Buscar produtos...">
+    </div>
+
+    <!-- ÍCONES -->
+    <div class="icons">
+      <div class="icon">👤</div>
+      <div class="icon">
+        🛒
+        <span class="cart-count">0</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- MENU -->
+  <nav>
+    <a href="#">Óculos de Grau</a>
+    <a href="#">Óculos de Sol</a>
+    <a href="#">Infantis</a>
+	<a href="#">Clip-On</a>
+	<a href="#">Relógios</a>
+  </nav>
+
+</header>
+<!-- CARROSSEL DE BANNERS -->
+<div class="carousel">
+
+  <div class="slides">
+
+    <!-- IMAGEM 1 - LABORATÓRIO PARCEIRO -->
+    <!-- 🔁 TROCAR A IMAGEM AQUI -->
+    <img src="images/banner1.jpg" class="slide active">
+
+    <!-- IMAGEM 2 - PROMOÇÕES -->
+    <!-- 🔁 TROCAR A IMAGEM AQUI -->
+    <img src="images/banner2.jpg" class="slide">
+
+    <!-- IMAGEM 3 - NOVIDADES -->
+    <!-- 🔁 TROCAR A IMAGEM AQUI -->
+    <img src="images/banner3.jpg" class="slide">
+
+  </div>
+
+  <!-- BOTÕES -->
+  <button class="prev">&#10094;</button>
+  <button class="next">&#10095;</button>
+
+</div>
+</div> <!-- fecha o carrossel -->
+
+<!-- SOBRE NÓS -->
+<section class="sobre">
+  <h2>Sobre a EZLook</h2>
+  <p>
+    A EZLook nasceu com o objetivo de transformar a forma como você compra óculos,
+    oferecendo estilo, qualidade e praticidade em um só lugar.
+  </p>
+</section>
+<!-- PRODUTOS DESTAQUE -->
+<section class="produtos">
+
+  <h2>Destaques</h2>
+
+  <div class="produtos-grid">
+
+    <!-- PRODUTO 1 -->
+    <div class="produto">
+
+      <span class="badge">-20% OFF</span> <!-- 🔥 DESCONTO -->
+
+      <!-- 🔁 TROCAR IMAGEM AQUI -->
+      <img src="images/oculos1.jpg" alt="Óculos de Sol">
+
+      <h3>Óculos de Sol</h3>
+
+      <p class="preco">
+        <span class="novo">R$96,00</span>
+        <span class="antigo">R$120,00</span>
+      </p>
+
+    </div>
+
+    <!-- PRODUTO 2 -->
+    <div class="produto">
+      <img src="images/oculos2.jpg" alt="Óculos de Sol">
+      <h3>Óculos de Sol</h3>
+      <p class="preco">
+        <span class="novo">R$122,00</span>
+      </p>
+    </div>
+
+    <!-- PRODUTO 3 -->
+    <div class="produto">
+      <img src="images/receituario.jpg" alt="Óculos de Grau">
+      <h3>Óculos de Grau</h3>
+      <p class="preco">
+        <span class="novo">R$320,00</span>
+      </p>
+    </div>
+
+    <!-- PRODUTO 4 -->
+    <div class="produto">
+      <img src="images/relogio.jpg" alt="Relógio">
+      <h3>Relógio</h3>
+      <p class="preco">
+        <span class="novo">R$420,00</span>
+      </p>
+    </div>
+
+  </div>
+
+</section>
+<!-- CARROSSEL DE CATEGORIAS -->
+<section class="categorias">
+
+  <h2>Categorias</h2>
+
+  <div class="categorias-container">
+
+    <!-- ITEM 1 -->
+    <div class="categoria">
+      <!-- 🔁 TROCAR IMAGEM AQUI -->
+      <img src="images/sol.jpg" alt="Óculos de Sol">
+      <p>Óculos de Sol</p>
+    </div>
+
+    <!-- ITEM 2 -->
+    <div class="categoria">
+      <img src="images/grau.jpg" alt="Óculos de Grau">
+      <p>Óculos de Grau</p>
+    </div>
+
+    <!-- ITEM 3 -->
+    <div class="categoria">
+      <img src="images/infantil.jpg" alt="Infantis">
+      <p>Infantis</p>
+    </div>
+
+    <!-- ITEM 4 -->
+    <div class="categoria">
+      <img src="images/clipon.jpg" alt="Clip-On">
+      <p>Clip-On</p>
+    </div>
+
+    <!-- ITEM 5 -->
+    <div class="categoria">
+      <img src="images/relogio.jpg" alt="Relógios">
+      <p>Relógios</p>
+    </div>
+
+  </div>
+
+</section>
+<!-- BANNERS DE LENTES (ESTILO PREMIUM) -->
+<section class="lentes">
+
+  <div class="lentes-grid">
+
+    <!-- LENTE 1 -->
+    <div class="lente-banner">
+      <!-- 🔁 TROCAR IMAGEM AQUI -->
+      <img src="images/lente1.jpg">
+      <div class="overlay">
+        <h3>Incolor</h3>
+      </div>
+    </div>
+
+    <!-- LENTE 2 -->
+    <div class="lente-banner">
+      <img src="images/lente2.jpg">
+      <div class="overlay">
+        <h3>Antirreflexo</h3>
+      </div>
+    </div>
+
+    <!-- LENTE 3 -->
+    <div class="lente-banner">
+      <img src="images/lente3.jpg">
+      <div class="overlay">
+        <h3>Filtro de Luz Azul</h3>
+      </div>
+    </div>
+
+    <!-- LENTE 4 -->
+    <div class="lente-banner">
+      <img src="images/lente4.jpg">
+      <div class="overlay">
+        <h3>Fotossensível</h3>
+      </div>
+    </div>
+
+    <!-- LENTE 5 -->
+    <div class="lente-banner">
+      <img src="images/lente5.jpg">
+      <div class="overlay">
+        <h3>Fotossensível + AR</h3>
+      </div>
+    </div>
+
+    <!-- LENTE 6 -->
+    <div class="lente-banner">
+      <img src="images/lente6.jpg">
+      <div class="overlay">
+        <h3>Completa</h3>
+      </div>
+    </div>
+
+  </div>
+
+</section>
+<!-- CARROSSEL DE PROMOÇÕES -->
+<section class="promo">
+
+  <div class="promo-slides">
+
+    <!-- PROMO 1 -->
+    <!-- 🔁 TROCAR IMAGEM DA PROMOÇÃO AQUI -->
+    <img src="images/promo1.jpg" class="promo-slide active">
+
+    <!-- PROMO 2 -->
+    <!-- 🔁 TROCAR IMAGEM DA PROMOÇÃO AQUI -->
+    <img src="images/promo2.jpg" class="promo-slide">
+
+    <!-- PROMO 3 -->
+    <!-- 🔁 TROCAR IMAGEM DA PROMOÇÃO AQUI -->
+    <img src="images/promo3.jpg" class="promo-slide">
+
+    <!-- PROMO 4 -->
+    <!-- 🔁 TROCAR IMAGEM DA PROMOÇÃO AQUI -->
+    <img src="images/promo4.jpg" class="promo-slide">
+
+    <!-- PROMO 5 -->
+    <!-- 🔁 TROCAR IMAGEM DA PROMOÇÃO AQUI -->
+    <img src="images/promo5.jpg" class="promo-slide">
+
+  </div>
+
+  <!-- BOTÕES -->
+  <button class="promo-prev">&#10094;</button>
+  <button class="promo-next">&#10095;</button>
+
+</section>
+<!-- CAPTAÇÃO DE LEADS -->
+<section class="newsletter">
+
+  <h2>Receba nossas promoções</h2>
+
+  <p>Cadastre seu e-mail e WhatsApp para ofertas exclusivas</p>
+
+  <form class="form-leads">
+
+    <!-- CAMPO EMAIL -->
+    <input type="email" placeholder="Digite seu e-mail" required>
+
+    <!-- CAMPO TELEFONE -->
+    <input type="tel" placeholder="Seu WhatsApp" required>
+
+    <!-- BOTÃO -->
+    <button type="submit">Cadastrar</button>
+
+  </form>
+
+</section>
+<!-- RODAPÉ -->
+<footer class="footer">
+
+  <div class="footer-container">
+
+    <!-- COLUNA 1 - MARCA -->
+    <div class="footer-col">
+      <h3>EZLook</h3>
+      <p>Estilo, qualidade e tecnologia em óculos e acessórios.</p>
+    </div>
+
+    <!-- COLUNA 2 - LINKS -->
+    <div class="footer-col">
+      <h4>Institucional</h4>
+      <ul>
+        <li><a href="#">Sobre nós</a></li>
+        <li><a href="#">Política de Privacidade</a></li>
+        <li><a href="#">Trocas e Devoluções</a></li>
+      </ul>
+    </div>
+
+    <!-- COLUNA 3 - CONTATO -->
+    <div class="footer-col">
+      <h4>Contato</h4>
+      <p>Email: contato@ezlook.com</p>
+      <p>WhatsApp: (00) 00000-0000</p>
+    </div>
+
+    <!-- COLUNA 4 - REDES -->
+    <div class="footer-col">
+      <h4>Siga-nos</h4>
+      <p>Instagram</p>
+      <p>Facebook</p>
+    </div>
+
+  </div>
+
+  <!-- LINHA FINAL -->
+  <div class="footer-bottom">
+    <p>© 2026 EZLook - Todos os direitos reservados</p>
+  </div>
+
+</footer>
+<script>
+  let index = 0;
+  const slides = document.querySelectorAll(".slide");
+
+  function showSlide(i) {
+    slides.forEach(slide => slide.classList.remove("active"));
+    slides[i].classList.add("active");
+  }
+
+  document.querySelector(".next").onclick = () => {
+    index = (index + 1) % slides.length;
+    showSlide(index);
+  };
+
+  document.querySelector(".prev").onclick = () => {
+    index = (index - 1 + slides.length) % slides.length;
+    showSlide(index);
+  };
+
+  // automático (opcional)
+  setInterval(() => {
+    index = (index + 1) % slides.length;
+    showSlide(index);
+  }, 4000);
+</script>
+<script>
+let promoIndex = 0;
+const promoSlides = document.querySelectorAll(".promo-slide");
+
+function showPromo(i){
+  promoSlides.forEach(s => s.classList.remove("active"));
+  promoSlides[i].classList.add("active");
+}
+
+document.querySelector(".promo-next").onclick = () => {
+  promoIndex = (promoIndex + 1) % promoSlides.length;
+  showPromo(promoIndex);
+};
+
+document.querySelector(".promo-prev").onclick = () => {
+  promoIndex = (promoIndex - 1 + promoSlides.length) % promoSlides.length;
+  showPromo(promoIndex);
+};
+
+/* automático */
+setInterval(() => {
+  promoIndex = (promoIndex + 1) % promoSlides.length;
+  showPromo(promoIndex);
+}, 4000);
+</script>
+<script>
+document.querySelector(".form-leads").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  alert("Cadastro realizado com sucesso!");
+
+  this.reset();
+});
+</script>
+</body>
+</html>
